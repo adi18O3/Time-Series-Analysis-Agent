@@ -24,7 +24,7 @@ def create_analysis_plan(query: str, metadata: dict) -> AnalysisPlan:
         User Query:
         {query}
 
-        Your task is to create an execution plan.
+        Create the simplest execution plan required to answer the user's query.
 
         Guidelines:
         - Understand what the user wants.
