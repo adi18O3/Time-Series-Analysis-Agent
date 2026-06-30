@@ -1,10 +1,24 @@
-from utils import (
-    load_dataset,
-    get_dataset_metadata
+from planner.planner import create_analysis_plan
+
+metadata = {
+    "rows": 1000,
+    "columns": [
+        "Timestamp",
+        "Temperature",
+        "Humidity",
+        "Pressure"
+    ],
+    "datetime_column": "Timestamp",
+    "numeric_columns": [
+        "Temperature",
+        "Humidity",
+        "Pressure"
+    ]
+}
+
+plan = create_analysis_plan(
+    "Compare temperature and humidity after 2 PM.",
+    metadata
 )
 
-df = load_dataset("sample_data/sensor_data.csv")
-
-metadata = get_dataset_metadata(df)
-
-print(metadata)
+print(plan)
