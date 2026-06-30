@@ -1,11 +1,10 @@
-from models import AnalysisPlan
-
-plan = AnalysisPlan(
-    intent="trend_analysis",
-    target_signals=["temperature"],
-    analysis=["trend"],
-    execution_steps=["calculate trend", "plot graph"],
-    reason="User wants to identify the trend."
+from utils import (
+    load_dataset,
+    get_dataset_metadata
 )
 
-print(plan)
+df = load_dataset("sample_data/sensor_data.csv")
+
+metadata = get_dataset_metadata(df)
+
+print(metadata)
