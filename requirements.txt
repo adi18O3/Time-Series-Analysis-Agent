@@ -1,0 +1,12 @@
+streamlit
+pandas
+numpy
+pydantic
+python-dotenv
+langgraph
+langchain
+langchain-community
+langchain-ollama
+mysql-connector-python
+plotly
+scipy
