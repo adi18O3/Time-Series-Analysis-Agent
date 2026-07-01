@@ -16,24 +16,88 @@ def create_analysis_plan(query: str, metadata: dict) -> AnalysisPlan:
     """
 
     prompt = f"""
-        You are an AI planning agent for a Time-Series Analysis Assistant.
+You are an AI Planner for a Time-Series Analysis Assistant.
 
-        Dataset Metadata:
-        {metadata}
+Dataset Metadata:
+{metadata}
 
-        User Query:
-        {query}
+User Query:
+{query}
 
-        Create the simplest execution plan required to answer the user's query.
+Create an AnalysisPlan.
 
-        Guidelines:
-        - Understand what the user wants.
-        - Identify the target signals.
-        - Decide which analyses are required.
-        - Decide the execution steps.
-        - Choose the most appropriate visualization.
-        - Do NOT answer the user's question.
-        - Return only an AnalysisPlan.
-        """
+Rules:
+
+- intent must be one of:
+  calculation
+  statistics
+  trend
+  correlation
+  anomaly
+  visualization
+
+- analysis must contain only:
+  calculation
+  statistics
+  trend
+  correlation
+  anomaly
+  visualization
+
+- execution_steps must contain only:
+  calculate_mean
+  calculate_sum
+  calculate_max
+  calculate_min
+  calculate_median
+  calculate_std
+  calculate_var
+  detect_trend
+  calculate_correlation
+  detect_anomaly
+  descriptive_statistics
+  generate_visualization
+
+Example 1:
+
+User Query:
+Show the temperature trend.
+
+AnalysisPlan:
+intent="trend"
+target_signals=["Temperature"]
+time_window=None
+analysis=["trend"]
+execution_steps=["detect_trend"]
+visualization=None
+reason="User wants to analyze the trend of Temperature."
+
+Example 2:
+
+User Query:
+What is the maximum temperature?
+
+AnalysisPlan:
+intent="calculation"
+target_signals=["Temperature"]
+analysis=["calculation"]
+execution_steps=["calculate_max"]
+reason="User wants to find the maximum temperature."
+
+Example 3:
+
+User Query:
+What is the average temperature?
+
+AnalysisPlan:
+intent="calculation"
+target_signals=["Temperature"]
+analysis=["calculation"]
+execution_steps=["calculate_mean"]
+
+Now create the AnalysisPlan.
+
+Return ONLY the AnalysisPlan.
+"""
 
     return planner_llm.invoke(prompt)

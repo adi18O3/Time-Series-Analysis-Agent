@@ -23,20 +23,58 @@ def validate_query(query: str, metadata: dict) -> GuardrailResult:
         )
 
     prompt = f"""
-        You are a guardrail for a Time-Series Analysis Assistant.
+You are a guardrail for a Time-Series Analysis Assistant.
 
-        Dataset Metadata:
-        {metadata}
+Dataset Metadata:
+{metadata}
 
-        User Query:
-        {query}
+User Query:
+{query}
 
-        Return:
-        - allowed = True if the query is about analyzing the uploaded dataset.
-        - allowed = False otherwise.
+A query is ALLOWED if it:
 
-        Do not answer the query.
-        Return only the GuardrailResult.
-        """
+- asks about any column in the uploaded dataset
+- requests calculations
+- requests statistics
+- requests trends
+- requests anomaly detection
+- requests correlation
+- requests visualization
+- refers to dataset columns such as:
+  {metadata["columns"]}
+
+Examples of allowed queries:
+
+- Show temperature trend
+- Detect anomalies in Temperature
+- Average Humidity
+- Maximum Pressure
+- Correlation between Temperature and Humidity
+- Plot Temperature
+
+Examples of blocked queries:
+
+- What is the capital of India?
+- Tell me a joke.
+- Write Python code.
+- Who is Virat Kohli?
+- Explain machine learning.
+
+Return:
+
+allowed=True if the query is dataset related.
+
+allowed=False otherwise.
+
+If allowed=False:
+
+message="I can only answer questions related to the uploaded time-series dataset."
+
+If allowed=True:
+
+message=""
+
+Return only GuardrailResult.
+"""
 
     return guardrail_llm.invoke(prompt)

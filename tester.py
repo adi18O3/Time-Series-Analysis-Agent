@@ -1,24 +1,17 @@
-from planner.planner import create_analysis_plan
+from memory.memory_manager import save_conversation, get_last_conversation
+from models import AnalysisPlan
 
-metadata = {
-    "rows": 1000,
-    "columns": [
-        "Timestamp",
-        "Temperature",
-        "Humidity",
-        "Pressure"
-    ],
-    "datetime_column": "Timestamp",
-    "numeric_columns": [
-        "Temperature",
-        "Humidity",
-        "Pressure"
-    ]
-}
-
-plan = create_analysis_plan(
-    "Compare temperature and humidity after 2 PM.",
-    metadata
+plan = AnalysisPlan(
+    intent="trend",
+    target_signals=["Temperature"],
+    analysis=["trend"],
+    execution_steps=["detect_trend"],
+    reason="Testing conversation memory."
 )
 
-print(plan)
+save_conversation(
+    "Show temperature trend",
+    plan
+)
+
+print(get_last_conversation())
